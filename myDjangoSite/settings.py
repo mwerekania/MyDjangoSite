@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,18 +28,26 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
-    'taggit',
+    # Added
+    'django.contrib.postgres', # required for fulltext search on postgres
+    'django.contrib.sites', # required for sitemaps
+    'django.contrib.sitemaps', # required for sitemaps
+    # my apps
+    'social_django',
+    'blog.apps.BlogConfig', # blog application i have created
+    'taggit', # tag application
 ]
 
 MIDDLEWARE = [
@@ -76,9 +85,14 @@ WSGI_APPLICATION = 'myDjangoSite.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+     #   'ENGINE': 'django.db.backends.sqlite3',
+      #  'NAME': BASE_DIR / 'db.sqlite3',
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydrupalsite',
+        'USER': 'webdev',
+        'PASSWORD': '',
     }
 }
 
@@ -121,5 +135,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Authentication
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+]
+
+#Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
