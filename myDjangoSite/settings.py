@@ -26,7 +26,7 @@ SECRET_KEY = 'l+#393#@d6&0bh!#houu)7!0@5vznlr_t$0*097^f3zp-*!4qv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mydjangosite.com', 'localhost', '127.0.0.1']
 
 SITE_ID = 1
 
@@ -45,9 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sites', # required for sitemaps
     'django.contrib.sitemaps', # required for sitemaps
     # my apps
-    'social_django',
-    'blog.apps.BlogConfig', # blog application i have created
+    'django_extensions', #django extensions
+    'social_django', # social authentication
     'taggit', # tag application
+    
+    'blog.apps.BlogConfig', # blog application i have created
+    
+    'images.apps.ImagesConfig', #images application
+    'easy_thumbnails', # Create thumbnails
+    
+   
 ]
 
 MIDDLEWARE = [
@@ -145,9 +152,13 @@ LOGOUT_URL = 'logout'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 #Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# Social Authentication settings
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '364289336820-ese4pgllht6jqghq8aikdm6qmmd3a57t.apps.googleusercontent.com' # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '0PP1eCZlLioiBKeueumr5fdF' # Google Consumer Secret
