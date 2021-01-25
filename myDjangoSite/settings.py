@@ -9,13 +9,12 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+from django.urls import reverse_lazy
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -48,13 +47,11 @@ INSTALLED_APPS = [
     'django_extensions', #django extensions
     'social_django', # social authentication
     'taggit', # tag application
+     'easy_thumbnails', # Create thumbnails
     
+    'actions.apps.ActionsConfig', # activity feed application
     'blog.apps.BlogConfig', # blog application i have created
-    
     'images.apps.ImagesConfig', #images application
-    'easy_thumbnails', # Create thumbnails
-    
-   
 ]
 
 MIDDLEWARE = [
@@ -162,3 +159,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Social Authentication settings
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '364289336820-ese4pgllht6jqghq8aikdm6qmmd3a57t.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '0PP1eCZlLioiBKeueumr5fdF' # Google Consumer Secret
+
+ABSOLUTE_URL_OVERRIDES = {'auth.user': lambda u: reverse_lazy('user_detail',args=[u.username])}
+
+THUMBNAIL_DEBUG = True
+
+#Redis Configuration
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0

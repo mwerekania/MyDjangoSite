@@ -22,6 +22,9 @@
             Unlike
           {% endif %}
         </a>
+        <span class="count">
+          {{ total_views }} view{{ total_views|pluralize }}
+          </span>
       </div>
       {{ image.description|linebreaks }}
     </div>
